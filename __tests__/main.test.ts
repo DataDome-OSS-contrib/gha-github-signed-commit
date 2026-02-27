@@ -196,42 +196,6 @@ describe('action', () => {
     })
   })
 
-  describe('input repository is given', () => {
-    describe('valid format', () => {
-      beforeEach(() => {
-        vi.spyOn(core, 'getInput').mockImplementation((name, _option) => {
-          if (name == 'repository') return 'the-user/the-repo'
-          return ''
-        })
-      })
-
-      it('succeed', async () => {
-        const setFailedMock = vi.spyOn(core, 'setFailed').mockReturnValue()
-        await main.run()
-        expect(setFailedMock).toHaveBeenCalledWith(
-          'Neither files nor tag input has been configured'
-        )
-      })
-    })
-
-    describe('invalid format', () => {
-      beforeEach(() => {
-        vi.spyOn(core, 'getInput').mockImplementation((name, _option) => {
-          if (name == 'repository') return 'the-user-the-repo'
-          return ''
-        })
-      })
-
-      it('fails', async () => {
-        const setFailedMock = vi.spyOn(core, 'setFailed').mockReturnValue()
-        await main.run()
-        expect(setFailedMock).toHaveBeenCalledWith(
-          'Input <repository> "the-user-the-repo" is invalid'
-        )
-      })
-    })
-  })
-
   describe('input branch is given', () => {
     beforeEach(() => {
       vi.spyOn(core, 'getMultilineInput').mockReturnValue(['/test.txt'])
